@@ -14,6 +14,8 @@ class LinkedList
 
   void insert(const T& elem);
 
+  bool find(const T& elem);
+
   bool removeFromFront(T& elem);
 
   T at(int pos);
@@ -97,6 +99,31 @@ void LinkedList < T > :: insert(const T& elem)
 
 }
 
+//find
+template <class T>
+bool LinkedList <T> :: find(const T& elem)
+{
+    bool retVal = false;
+
+    //temp node* search helper
+    Node* p_search = p_head;
+
+    while(p_search != 0){
+    
+	if(p_search->data == elem){
+	    retVal = true;
+	    break;      
+	}
+    
+	//else increment p_search
+	p_search = p_search->p_next;
+
+    }
+
+    return retVal;
+
+}
+
 //removeFromFront
 template <class T>
 bool LinkedList <T> :: removeFromFront(T& elem)
@@ -128,6 +155,9 @@ bool LinkedList <T> :: removeFromFront(T& elem)
     //decrement numElements
     numElements--;
 
+  }
+  else{
+      cout << "Trying to remove from empty list...carry on" << endl;
   }
 
   return retVal;
@@ -244,9 +274,6 @@ bool LinkedList <T> :: isEmpty()
 template <class T>
 void LinkedList <T> :: print()
 {
-  //helper T object
-  T val;
-
   if(isEmpty()){
     
     cout << "Not printing because list is empty" << endl;
@@ -254,19 +281,7 @@ void LinkedList <T> :: print()
   }
   else{
 
-    //if there is a last item (list is not empty)
-    //store the element in val
-    if(first(val)){
 
-      cout << val << endl;
-
-      //while we are not at the end, store each element in val
-      while(next(val)){
-
-	cout << val << endl;
-
-      }
-    }
 
   }
 
