@@ -11,6 +11,7 @@ class LinkedList
  public:
   LinkedList();
   ~LinkedList();
+
   void insert(const T& elem);
 
   bool removeFromFront(T& elem);
@@ -140,31 +141,30 @@ T LinkedList <T> :: at(int pos)
   //object to return eventually
   T retVal;
 
-  //helper T object
-  T val;
+  //search helper node
+  Node* p_search = p_head;
 
   int count = 0;
   
-  if(pos >= size()){
+  //if pos isn't a valid index
+  if(pos >= size() ||
+     pos < 0){
     LinkedListOutOfBoundsException error;
     throw error;
   }
+  //if pos is within bounds
   else{
-    if(first(val)){
-      if(count == pos){
-	retVal = val;
-      }
-      else{
-	while(next(val)){
-	  count++;
-	  
+      while(p_search != 0){
+
 	  if(count == pos){
-	    retVal = val;
-	    break;
+	      retVal = p_search->data;
+	      break;
 	  }
-	}
+
+	  count++;
+	  //send p_search towards tail
+	  p_search = p_search->p_next;
       }
-    }
   }
 
   return retVal;
