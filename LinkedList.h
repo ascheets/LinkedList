@@ -17,6 +17,7 @@ class LinkedList
   bool find(const T& elem);
 
   bool removeFromFront(T& elem);
+  bool remove(int pos);
 
   T at(int pos);
   T operator [] (int pos);
@@ -118,6 +119,69 @@ bool LinkedList <T> :: find(const T& elem)
 	//else increment p_search
 	p_search = p_search->p_next;
 
+    }
+
+    return retVal;
+
+}
+
+//remove
+template <class T>
+bool LinkedList <T> :: remove(int pos)
+{
+    bool retVal = false;
+
+    //Node* search helper
+    Node* p_search = p_head;
+    //int pos helper
+    int count = 0;
+    //Node* delete helper
+    Node* p_toDelete;
+    
+    if(pos < 0 ||
+       pos >= numElements){
+	LinkedListOutOfBoundsException error;
+	throw error;
+    }
+    else{
+	
+	//preemptive decrement of numElements
+	numElements--;
+
+	//is element at head?
+	if(pos == 0){
+	    
+	    //pointer kung-fu
+	    p_toDelete = p_search;
+	    p_head = p_search->p_next;
+	    
+	    delete p_toDelete;
+	    retVal = true;
+
+	}
+	else{
+
+	    while(p_search != 0){
+
+		//stop one before position since... 
+		//this list isn't doubly linked
+		if(count == pos - 1){
+		    //this is the node will eventually delete
+		    p_toDelete = p_search->p_next;
+		    //update p_search->p_next
+		    p_search->p_next = p_toDelete->p_next;
+		
+		    delete p_toDelete;
+		    retVal = true;
+		    break;
+
+		}
+
+		//increment p_search
+		p_search = p_search->p_next;
+		count++;
+	    }
+	}
     }
 
     return retVal;
@@ -281,8 +345,16 @@ void LinkedList <T> :: print()
   }
   else{
 
+      Node* p_search = p_head;
 
+      int count = 0;
 
+      while(p_search != 0){
+
+	  cout << count << ". " << p_search->data << endl;
+	  p_search = p_search->p_next;
+	  count++;
+      }
   }
 
 }
